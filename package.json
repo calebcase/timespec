@@ -1,0 +1,28 @@
+{
+  "name": "timespec",
+  "version": "0.1.0",
+  "author": "Caleb Case <calebcase@gmail.com>",
+  "description": "Parse time-like phrases into a Date.",
+  "contributors": [
+    {
+      "name": "Caleb Case",
+      "email": "calebcase@gmail.com"
+    }
+  ],
+  "scripts": {
+    "prepublish": "pegjs timespec.pegjs"
+  },
+  "main": "timespec",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/calebcase/timespec.git"
+  },
+  "keywords": [
+    "time",
+    "parser"
+  ],
+  "devDependencies": {
+    "pegjs": "0.x"
+  },
+  "license": "Apache"
+}
