@@ -169,6 +169,8 @@ date
     now.setMinutes(0);
     now.setSeconds(0);
     now.setMilliseconds(0);
+
+    return now;
   }
   / 'TOMORROW'i {
     var now = new Date();
