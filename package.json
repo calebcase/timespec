@@ -1,6 +1,6 @@
 {
   "name": "timespec",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Caleb Case <calebcase@gmail.com>",
   "description": "Parse time-like phrases into a Date.",
   "contributors": [
