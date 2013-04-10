@@ -163,7 +163,12 @@ date
     return now;
   }
   / 'TODAY'i {
-    return new Date();
+    var now = new Date();
+
+    now.setHours(0);
+    now.setMinutes(0);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
   }
   / 'TOMORROW'i {
     var now = new Date();
