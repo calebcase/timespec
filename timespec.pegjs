@@ -278,7 +278,23 @@ date
   }
 
 concatenated_date
-  = int5_8digit
+  = digits:str5_8digit {
+    var year = 0;
+    var month = 0;
+    var day = 0;
+
+    if (digits.length === 5 || digits.length === 6) { /* YearMonth */
+      year = parseInt(digits.slice(0, 4), 10);
+      month = parseInt(digits.slice(4), 10) - 1;
+    }
+    else if (digits.length === 7 || digits.length === 8) { /* YearMonthDay */
+      year = parseInt(digits.slice(0, 4), 10);
+      month = parseInt(digits.slice(4, 6), 10) - 1;
+      day = parseInt(digits.slice(6), 10);
+    }
+
+    return new Date(year, month, day);
+  }
 
 month_name
   = 'JAN'i ('UARY'i)? { return 0; }
@@ -359,21 +375,24 @@ int2_or_4digit
     return parseInt(value, 10);
   }
 
-int5_8digit
+str5_8digit
   = digits:([0-9][0-9][0-9][0-9][0-9]([0-9][0-9][0-9] / [0-9][0-9] / [0-9])?) {
     var value = digits.slice(0, 5).join('');
 
     if (typeof(digits[5]) === 'object') {
       value += digits[5].join('');
     }
+    else {
+      value += digits[5];
+    }
 
-    return parseInt(value, 10);
+    return value;
   }
 
 integer
-  = digits:[0-9]+ { return parseInt(digits.join(''), 10); }
-  / int5_8digit
-  / int2_or_4digit
+  = digits:[0-9]+ {
+    return parseInt(digits.join(''), 10);
+  }
 
 _
   = [\t\n\r ]+

@@ -103,21 +103,18 @@ describe 'Parsing', ->
         equal_to_the_minute target, (ts.parse date_string)
 
   # start -> timespec -> spec_base -> date -> concatenated_date
-  ### FIXME Not implemented!
   do () ->
     targets =
-      '2040': new Date(2040, 0, 0, 0, 0, 0, 0)
-      '20401': new Date(2040, 1, 0, 0, 0, 0, 0)
-      '204001': new Date(2040, 1, 0, 0, 0, 0, 0)
-      '2040012': new Date(2040, 1, 2, 0, 0, 0, 0)
-      '20400102': new Date(2040, 1, 2, 0, 0, 0, 0)
+      '20401': new Date(2040, 0, 0)
+      '204001': new Date(2040, 0, 0)
+      '2040012': new Date(2040, 0, 2)
+      '20400102': new Date(2040, 0, 2)
 
     for date_string, target of targets
       do (date_string, target) ->
         describe "'#{date_string}'", ->
           it "should return '#{target.toString()}'", ->
             equal_to_the_day target, (ts.parse date_string)
-  ###
 
   # start -> timespec -> spec_base -> date -> NEXT +/- inc_dec_period
   # start -> timespec -> spec_base -> date -> NEXT day_of_week

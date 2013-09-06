@@ -1,6 +1,6 @@
 {
   "name": "timespec",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": "Caleb Case <calebcase@gmail.com>",
   "description": "Parse time-like phrases into a Date.",
   "contributors": [
@@ -11,7 +11,10 @@
   ],
   "scripts": {
     "prepublish": "pegjs timespec.pegjs",
-    "test": "pegjs timespec.pegjs; mocha --compilers coffee:coffee-script"
+    "pretest": "rm -f timespec.js && pegjs timespec.pegjs",
+    "test": "mocha --compilers coffee:coffee-script",
+    "clean": "rm -f timespec.js",
+    "dist-clean": "git clean -df"
   },
   "main": "timespec",
   "repository": {
