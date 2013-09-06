@@ -190,38 +190,38 @@ date
     var now = new Date();
 
     now.setFullYear(year);
-    now.setMonth(month);
+    now.setMonth(month - 1);
     now.setDate(date);
 
     return now;
   }
-  / date:int1_2digit [.] month:int1_2digit [.] year:year_number {
-    var now = new date();
+  / date:day_number [.] month:month_number [.] year:year_number {
+    var now = new Date();
 
-    now.setfullyear(year);
-    now.setmonth(month);
-    now.setdate(date);
+    now.setFullYear(year);
+    now.setMonth(month - 1);
+    now.setDate(date);
 
     return now;
   }
   / date:day_number _ month:month_name tail:(_ year_number)? {
-    var now = new date();
+    var now = new Date();
 
     if (typeof(tail) === 'object') {
       now.setFullYear(tail[1]);
     }
 
-    now.setmonth(month);
-    now.setdate(date);
+    now.setMonth(month);
+    now.setDate(date);
 
     return now;
   }
-  / month:month_number '/' day:day_number '/' year:year_number {
-    var now = new date();
+  / month:month_number '/' date:day_number '/' year:year_number {
+    var now = new Date();
 
-    now.setfullyear(year);
-    now.setmonth(month);
-    now.setdate(date);
+    now.setFullYear(year);
+    now.setMonth(month - 1);
+    now.setDate(date);
 
     return now;
   }

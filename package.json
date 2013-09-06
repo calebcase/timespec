@@ -1,6 +1,6 @@
 {
   "name": "timespec",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Caleb Case <calebcase@gmail.com>",
   "description": "Parse time-like phrases into a Date.",
   "contributors": [
@@ -10,7 +10,8 @@
     }
   ],
   "scripts": {
-    "prepublish": "pegjs timespec.pegjs"
+    "prepublish": "pegjs timespec.pegjs",
+    "test": "pegjs timespec.pegjs; mocha --compilers coffee:coffee-script"
   },
   "main": "timespec",
   "repository": {
@@ -22,7 +23,10 @@
     "parser"
   ],
   "devDependencies": {
-    "pegjs": "0.x"
+    "coffee-script": "1.x",
+    "mocha": "1.x",
+    "pegjs": "0.x",
+    "should": "1.x"
   },
   "license": "Apache"
 }
