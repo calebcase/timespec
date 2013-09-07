@@ -34,23 +34,55 @@ timespec
 
 spec_base
   = date
-  / t:time tail:(_ date)? {
+  / t:time_base tail:((_ timezone_name)? (_ date)?)? {
+    var utc = false;
+    var date = null;
     if (typeof(tail) === 'object') {
-      var d = tail[1];
-      t.setFullYear(d.getFullYear());
-      t.setMonth(d.getMonth());
-      t.setDate(d.getDate());
+      if (typeof(tail[0]) === 'object') {
+        utc = true;
+      }
+      if (typeof(tail[1]) === 'object') {
+        date = tail[1][1];
+      }
+    }
+
+    if (utc) {
+      t = new Date(Date.UTC(
+        t.getFullYear(),
+        t.getMonth(),
+        t.getDate(),
+        t.getHours(),
+        t.getMinutes(),
+        t.getSeconds(),
+        t.getMilliseconds()));
+    }
+
+    if (date) {
+      if (utc) {
+        t.setUTCFullYear(date.getUTCFullYear());
+        t.setUTCMonth(date.getUTCMonth());
+        t.setUTCDate(date.getUTCDate());
+      }
+      else {
+        t.setFullYear(date.getFullYear());
+        t.setMonth(date.getMonth());
+        t.setDate(date.getDate());
+      }
+    }
+    else {
+      /* If no date is specified and the time has already passed, follow
+       * the behavior of 'at' and pick the same time tomorrow.
+       */
+      var now = new Date();
+      if (t < now) {
+        t.setDate(t.getDate() + 1);
+      }
     }
 
     return t;
   }
   / 'NOW'i {
     return new Date();
-  }
-
-time
-  = t:time_base tail:(_ timezone_name)? {
-    return t;
   }
 
 time_base
@@ -103,8 +135,8 @@ hr24clock_hr_min
   = hour:([0-9][0-9]) minute:([0-9][0-9]) {
     var today = new Date();
 
-    today.setHours(hour);
-    today.setMinutes(minute);
+    today.setHours(parseInt(hour.join(''), 10));
+    today.setMinutes(parseInt(minute.join(''), 10));
     today.setSeconds(0);
     today.setMilliseconds(0);
 
@@ -136,8 +168,8 @@ time_hour_min
   }
 
 am_pm
-  = 'AM'i { return 0; }
-  / 'PM'i { return 12; }
+  = 'AM'i { return 12; }
+  / 'PM'i { return 0; }
 
 timezone_name
   = 'UTC'i
