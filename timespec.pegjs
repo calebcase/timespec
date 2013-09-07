@@ -144,14 +144,14 @@ timezone_name
 
 date
   = month:month_name _ day:day_number tail:((_? ',')? _ year_number)? {
-    var now = new Date();
+    var now = null;
 
     if (typeof(tail) === 'object') {
-      now.setFullYear(tail[2]);
+      now = new Date(tail[2], month, day);
     }
-
-    now.setMonth(month);
-    now.setDate(day);
+    else {
+      now = new Date(new Date().getFullYear(), month, day);
+    }
 
     return now;
   }
@@ -187,43 +187,25 @@ date
     return now;
   }
   / year:year_number [-] month:int1_2digit [-] date:int1_2digit {
-    var now = new Date();
-
-    now.setFullYear(year);
-    now.setMonth(month - 1);
-    now.setDate(date);
-
-    return now;
+    return new Date(year, month - 1, date);
   }
   / date:day_number [.] month:month_number [.] year:year_number {
-    var now = new Date();
-
-    now.setFullYear(year);
-    now.setMonth(month - 1);
-    now.setDate(date);
-
-    return now;
+    return new Date(year, month - 1, date);
   }
   / date:day_number _ month:month_name tail:(_ year_number)? {
-    var now = new Date();
+    var now = null;
 
     if (typeof(tail) === 'object') {
-      now.setFullYear(tail[1]);
+      now = new Date(tail[1], month, date);
     }
-
-    now.setMonth(month);
-    now.setDate(date);
+    else {
+      now = new Date(new Date().getFullYear(), month, date);
+    }
 
     return now;
   }
   / month:month_number '/' date:day_number '/' year:year_number {
-    var now = new Date();
-
-    now.setFullYear(year);
-    now.setMonth(month - 1);
-    now.setDate(date);
-
-    return now;
+    return new Date(year, month - 1, date);
   }
   / concatenated_date
   / 'NEXT'i c:(_ inc_dec_number)? _ amount:inc_dec_period {
