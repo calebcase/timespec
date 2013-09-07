@@ -12,7 +12,7 @@
   "scripts": {
     "prepublish": "pegjs timespec.pegjs",
     "pretest": "rm -f timespec.js && pegjs timespec.pegjs",
-    "test": "mocha --compilers coffee:coffee-script -R spec",
+    "test": "istanbul test _mocha -- --compilers coffee:coffee-script -R spec",
     "clean": "rm -f timespec.js",
     "dist-clean": "git clean -df"
   },
@@ -27,6 +27,7 @@
   ],
   "devDependencies": {
     "coffee-script": "1.x",
+    "istanbul": "0.x",
     "mocha": "1.x",
     "pegjs": "0.x",
     "should": "1.x"
