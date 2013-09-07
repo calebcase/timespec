@@ -116,10 +116,91 @@ describe 'Parsing', ->
           it "should return '#{target.toString()}'", ->
             equal_to_the_day target, (ts.parse date_string)
 
-  # start -> timespec -> spec_base -> date -> NEXT +/- inc_dec_period
+  # start -> timespec -> spec_base -> date -> NEXT inc_dec_period
+  do () ->
+    target = new Date()
+    target.setMonth(target.getMonth() + 1)
+
+    date_string = 'next month'
+    describe "'#{date_string}'", ->
+      it "should return '#{target.toString()}'", ->
+        equal_to_the_minute target, (ts.parse date_string)
+
+  # start -> timespec -> spec_base -> date -> NEXT count inc_dec_period
+  do () ->
+    for count in [1..24]
+      do (count) ->
+        target = new Date()
+        target.setMonth(target.getMonth() + count)
+
+        date_string = "next #{count} months"
+        describe "'#{date_string}'", ->
+          it "should return '#{target.toString()}'", ->
+            equal_to_the_minute target, (ts.parse date_string)
+
   # start -> timespec -> spec_base -> date -> NEXT day_of_week
-  # start -> timespec -> spec_base -> date -> LAST +/- inc_dec_period
+  do () ->
+    targets =
+      'sun': 0
+      'mon': 1
+      'tue': 2
+      'wed': 3
+      'thu': 4
+      'fri': 5
+      'sat': 6
+
+    for name, day of targets
+      target = new Date()
+      target.setDate(target.getDate() + (day - target.getDay()) + 7)
+
+      date_string = "NEXT #{name}"
+      describe "'#{date_string}'", ->
+        it "should return '#{target.toString()}'", ->
+          equal_to_the_minute target, (ts.parse date_string)
+
+  # start -> timespec -> spec_base -> date -> LAST inc_dec_period
+  do () ->
+    target = new Date()
+    target.setMonth(target.getMonth() - 1)
+
+    date_string = 'LAST month'
+    describe "'#{date_string}'", ->
+      it "should return '#{target.toString()}'", ->
+        equal_to_the_minute target, (ts.parse date_string)
+
+  # start -> timespec -> spec_base -> date -> LAST count inc_dec_period
+  do () ->
+    for count in [1..24]
+      do (count) ->
+        target = new Date()
+        target.setMonth(target.getMonth() - count)
+
+        date_string = "LAST #{count} months"
+        describe "'#{date_string}'", ->
+          it "should return '#{target.toString()}'", ->
+            equal_to_the_minute target, (ts.parse date_string)
+
   # start -> timespec -> spec_base -> date -> LAST day_of_week
+  do () ->
+    targets =
+      'sun': 0
+      'mon': 1
+      'tue': 2
+      'wed': 3
+      'thu': 4
+      'fri': 5
+      'sat': 6
+
+    for name, day of targets
+      target = new Date()
+      if target.getDay() is day
+        target.setDate(target.getDate() - 7)
+      target.setDate(target.getDate() + (day - target.getDay()))
+
+      date_string = "last #{name}"
+      describe "'#{date_string}'", ->
+        it "should return '#{target.toString()}'", ->
+          equal_to_the_minute target, (ts.parse date_string)
 
   # start -> timespec -> spec_base -> NOW
   do () ->
