@@ -59,9 +59,9 @@ spec_base
 
     if (date) {
       if (utc) {
-        t.setUTCFullYear(date.getUTCFullYear());
-        t.setUTCMonth(date.getUTCMonth());
-        t.setUTCDate(date.getUTCDate());
+        t.setUTCFullYear(date.getFullYear());
+        t.setUTCMonth(date.getMonth());
+        t.setUTCDate(date.getDate());
       }
       else {
         t.setFullYear(date.getFullYear());
@@ -409,4 +409,4 @@ integer
   }
 
 _
-  = [\t\n\r ]+
+  = [\t\n\r _]*
